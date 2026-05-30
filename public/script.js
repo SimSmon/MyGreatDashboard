@@ -1,11 +1,22 @@
 function startTime() {
   var today = new Date();
-  var h = today.getHours();
-  var m = today.getMinutes();
-  var s = today.getSeconds();
-  m = checkTime(m);
-  document.getElementById('time').innerHTML =
-  h + ":" + m + ":" + s;
+  var day = today.getDay();
+  var date = today.getDate();
+  var month = today.getMonth();
+  var year = today.getFullYear();
+  var hours = today.getHours().toString().padStart(2, "0");
+  var minutes = today.getMinutes().toString().padStart(2, "0");
+  var seconds = today.getSeconds().toString().padStart(2, "0");
+
+  m = checkTime(minutes);
+  
+  const dayString = getWeekDay(month);
+  const monthString = getMonths(month);
+  
+  document.getElementById('time').innerHTML = `
+  <h1>${hours} : ${minutes} : ${seconds}</h1>
+  <h3>${dayString} ${date} ${monthString} ${year}  </h3>
+  `
   var t = setTimeout(startTime, 500);
 }
 function checkTime(i) {
@@ -16,6 +27,81 @@ function checkTime(i) {
 startTime();
 
 loadWeather();
+
+function getWeekDay(code) {
+
+  switch(code) {
+
+    case 0:
+      return "Dimanche";
+
+    case 1:
+      return "Lundi";
+
+    case 2:
+      return "Mardi";
+
+    case 3:
+      return "Mercredi";
+
+    case 4:
+      return "Jeudi";
+
+    case 5:
+      return "Vendredi";
+
+    case 6:
+      return "Samedi";
+
+    default:
+      return "--";
+  }
+}
+
+function getMonths(code) {
+
+  switch(code) {
+
+    case 0:
+      return "Janvier";
+
+    case 1:
+      return "Février";
+
+    case 2:
+      return "Mars";
+
+    case 3:
+      return "Avril";
+
+    case 4:
+      return "Mai";
+
+    case 5:
+      return "Juin";
+
+    case 6:
+      return "Juillet";
+
+    case 7:
+      return "Aout";
+
+    case 8:
+      return "Septembre";
+
+    case 9:
+      return "Octobre";
+
+    case 10:
+      return "Novembre";
+
+    case 11:
+      return "Décembre";
+
+    default:
+      return "--";
+  }
+}
 
 function getWeatherIcon(code) {
 
@@ -132,25 +218,52 @@ async function loadWeather() {
 
 async function loadCalendar() {
 
-const response =
-  await fetch("/calendar");
+  const response =
+    await fetch("/calendar");
 
-const text =
-  await response.text();
+  const text =
+    await response.text();
+
+  const jcalData =
+    ICAL.parse(text);
+
+  const comp =
+    new ICAL.Component(jcalData);
+
+  const events =
+    comp.getAllSubcomponents("vevent");
 
   const calendar =
     document.getElementById("calendar");
 
   calendar.innerHTML = "";
 
-  events.slice(0, 5).forEach(event => {
+  const now = new Date();
 
-    const e = new ICAL.Event(event);
+  const upcomingEvents = events
+    .map(event => new ICAL.Event(event))
+    .filter(event => {
+
+      const eventDate =
+        event.startDate.toJSDate();
+
+      return eventDate >= now;
+    })
+    .sort((a, b) => {
+
+      return a.startDate.toJSDate()
+        - b.startDate.toJSDate();
+    })
+    .slice(0, 5);
+
+  upcomingEvents.forEach(event => {
 
     calendar.innerHTML += `
       <div class="event">
-        <h3>${e.summary}</h3>
-        <p>${e.startDate.toJSDate().toLocaleString()}</p>
+        <h3>${event.summary}</h3>
+        <p>
+          ${event.startDate.toJSDate().toLocaleString()}
+        </p>
       </div>
     `;
   });

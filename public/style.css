@@ -1,29 +1,67 @@
-body, html {
-    height:100vh;
+body {
+
+    background: #111;
+    color: white;
+
+    font-family: Roboto;
+
+    margin: 0;
+    padding: 1%;
+
+    overflow: hidden;
 }
-  
-div.bloc_principale {
-   height:100vh;
-}
+
+/* HORLOGE */
 
 #time {
-  font-size: 30px;
-  font-family: 'Roboto', sans-serif;
-  color: #ffffff;
-  text-shadow:
-   -1px -1px 0 #000,
-    1px -1px 0 #000,
-    -1px 1px 0 #000,
-     1px 1px 0 #000;
+
+    position: absolute;
+
+    top: 1%;
+    left: 1%;
+
+    font-size: 100%;
 }
 
-#calendar {
-    background: rgba(0,0,0,0.4);
-    border-radius: 20px;
-    padding: 20px;
-    color: white;
+/* CARD MÉTÉO */
+
+#weatherCard {
+
+    position: absolute;
+
+    top: 1vh;
+    right: 1vw;
+
+    width: 25vw;
+    height: 45vh;
+
+    font-size: 50%;
 }
 
-.event {
-    margin-bottom: 15px;
+/* CARD CALENDRIER */
+
+#calendarCard {
+
+    position: absolute;
+
+    bottom: 10vh;
+    right: 1vw;
+
+    width: 25vw;
+    height: 35vh;
+
+    font-size: 50%;
+}
+
+/* STYLE COMMUN */
+
+.card {
+
+    background: rgba(255,255,255,0.08);
+
+    border-radius: 1%;
+
+    padding: 1%;
+
+    backdrop-filter: blur(10px);
 }
