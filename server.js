@@ -1,9 +1,13 @@
 const express = require("express");
 const fetch = require("node-fetch");
+const fs = require("fs");
+const path = require("path");
 
 const app = express();
 
 app.use(express.static("public"));
+
+app.use("/photos", express.static(path.join(__dirname, "photos")));
 
 app.get("/calendar", async (req, res) => {
 
@@ -13,11 +17,23 @@ app.get("/calendar", async (req, res) => {
 
   const text = await response.text();
 
-  console.log(text);
-
   res.send(text);
 });
 
+app.get("/photos", (req, res) => {
+
+    const photosDir = path.join(__dirname, "photos");
+
+    const photos = fs.readdirSync(photosDir)
+        .filter(file =>
+            file.endsWith(".jpg") ||
+            file.endsWith(".jpeg") ||
+            file.endsWith(".png")
+        );
+
+    res.json(photos);
+});
+
 app.listen(3000, () => {
-  console.log("Serveur lancé !!");
+  console.log("Serveur lancé !");
 });

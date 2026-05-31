@@ -21,6 +21,7 @@
   "homepage": "https://github.com/SimSmon/MyGreatDashboard#readme",
   "dependencies": {
     "express": "^5.2.1",
-    "node-fetch": "^2.7.0"
+    "node-fetch": "^2.7.0",
+    "sharp": "^0.34.5"
   }
 }
