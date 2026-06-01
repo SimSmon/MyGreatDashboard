@@ -45,7 +45,7 @@ async function generateThumbnail(input, output) {
 app.get("/photos", async (req, res) => {
 
     const photosDir =
-        "/mnt/photoDashBoard/photos";
+        "/mnt/photoDashBoard";
 
     const cacheDir =
         path.join(__dirname, "cache");
