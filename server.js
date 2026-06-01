@@ -22,7 +22,7 @@ app.get("/calendar", async (req, res) => {
 
 app.get("/photos", (req, res) => {
 
-    const photosDir = path.join(__dirname, "photos");
+    const photosDir = "/mnt/photoDashBoard";
 
     const photos = fs.readdirSync(photosDir)
         .filter(file =>
