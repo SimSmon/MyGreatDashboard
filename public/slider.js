@@ -31,7 +31,7 @@ function nextPhoto() {
     currentIndex = randomIndex;
 
     document.getElementById("photo").src =
-        "/photos/" + photos[randomIndex];
+        "/cache/" + photos[randomIndex];
 }
 
 loadPhotos();

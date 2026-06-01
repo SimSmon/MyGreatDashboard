@@ -9,6 +9,9 @@ app.use(express.static("public"));
 
 app.use("/photos", express.static(path.join(__dirname, "photos")));
 
+app.use("/cache", express.static(path.join(__dirname, "cache")));
+
+
 app.get("/calendar", async (req, res) => {
 
   const response = await fetch(
@@ -20,16 +23,55 @@ app.get("/calendar", async (req, res) => {
   res.send(text);
 });
 
-app.get("/photos", (req, res) => {
+async function generateThumbnail(input, output) {
 
-    const photosDir = "/mnt/photoDashBoard";
+    if (fs.existsSync(output)) {
+        return;
+    }
+
+    await sharp(input)
+        .resize(1920, 1080, {
+            fit: "inside",
+            withoutEnlargement: true
+        })
+        .jpeg({
+            quality: 85
+        })
+        .toFile(output);
+
+    console.log("Miniature créée :", output);
+}
+
+app.get("/photos", async (req, res) => {
+
+    const photosDir =
+        "/mnt/photoDashBoard/photos";
+
+    const cacheDir =
+        path.join(__dirname, "cache");
+
+    if (!fs.existsSync(cacheDir)) {
+        fs.mkdirSync(cacheDir);
+    }
 
     const photos = fs.readdirSync(photosDir)
         .filter(file =>
-            file.endsWith(".jpg") ||
-            file.endsWith(".jpeg") ||
-            file.endsWith(".png")
+            /\.(jpg|jpeg|png)$/i.test(file)
         );
+
+    for (const photo of photos) {
+
+        const input =
+            path.join(photosDir, photo);
+
+        const output =
+            path.join(cacheDir, photo);
+
+        await generateThumbnail(
+            input,
+            output
+        );
+    }
 
     res.json(photos);
 });
