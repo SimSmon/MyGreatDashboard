@@ -36,7 +36,7 @@ async function generateThumbnail(input, output) {
             withoutEnlargement: true
         })
         .jpeg({
-            quality: 85
+            quality: 100
         })
         .toFile(output);
 
