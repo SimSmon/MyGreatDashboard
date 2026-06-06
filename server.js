@@ -31,7 +31,10 @@ async function generateThumbnail(input, output) {
     }
 
     await sharp(input)
-        .resize(1920, 1080, {
+        .rotate()
+        .resize({
+            width: 1600,
+            height: 1600,
             fit: "inside",
             withoutEnlargement: true
         })
