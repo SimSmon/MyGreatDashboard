@@ -9,61 +9,43 @@
         <script src="https://cdn.jsdelivr.net/npm/ical.js/build/ical.min.js"></script>
     </head>
     <body>
-
-        <!--
-    <div id="carousel-container">
-        <div>
-            <ul id="carousel" class="animate">
-                <li class="slide animate">
-                    <img src="photos\20240907_135233.jpg"/>
-                </li>
-                <li class="slide animate">
-                    <img src="photos\20240908_113531.jpg"/>
-                </li> 
-            </ul> 
-        </div>
-        <div id="controls">
-            <span id="prev"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1014830/prev.png"></span>
-            <span id="next"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1014830/next.png"></span>
-        </div>
-    </div>
--->
-
-    <div id="carousel-container">
-        <img id="photo" src="" alt="Photo">
-    </div>
-
-    <div id="time"></div>
-
-    <div id="weatherCard" class="card">
-
-        <div id="weather">
-            Chargement météo...
+    <div id="dashboard">
+        <div id="carousel-container">
+            <img id="photo" src="" alt="Photo">
         </div>
 
-        <table id="forecastTable">
+        <div id="time"></div>
 
-            <thead>
-                <tr>
-                    <th>Jour</th>
-                    <th>Icône</th>
-                    <th>Min</th>
-                    <th>Max</th>
-                </tr>
-            </thead>
+        <div id="weatherCard" class="card">
 
-            <tbody>
-            </tbody>
+            <div id="weather">
+                Chargement météo...
+            </div>
 
-        </table>
+            <table id="forecastTable">
 
-    </div>
+                <thead>
+                    <tr>
+                        <th>Jour</th>
+                        <th>Icône</th>
+                        <th>Min</th>
+                        <th>Max</th>
+                    </tr>
+                </thead>
 
-    <div id="calendarCard" class="card">
+                <tbody>
+                </tbody>
 
-        <div id="calendar"></div>
+            </table>
 
-    </div>      
+        </div>
+
+        <div id="calendarCard" class="card">
+
+            <div id="calendar"></div>
+
+        </div>    
+    </div>  
     <script src="script.js"></script>
     <script src="slider.js"></script>
 
