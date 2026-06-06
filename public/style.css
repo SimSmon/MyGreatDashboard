@@ -70,10 +70,10 @@ html, body {
 
 #carousel-container {
     position: absolute;
-    bottom: 1%;
+    bottom: 10%;
     left: 1%;
-    width: 800px;
-    height: 450px;
+    width: 1280px;
+    height: 720px;
     overflow: hidden;
     border-radius: 15px;
 }
