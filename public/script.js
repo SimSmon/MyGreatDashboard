@@ -270,3 +270,119 @@ async function loadCalendar() {
 }
 
 loadCalendar();
+
+function formatTime(ms) {
+
+    const totalSeconds =
+        Math.floor(ms / 1000);
+
+    const minutes =
+        Math.floor(totalSeconds / 60);
+
+    const seconds =
+        totalSeconds % 60;
+
+    return `${minutes}:${seconds
+        .toString()
+        .padStart(2, "0")}`;
+}
+
+
+    let currentTrack = null;
+
+async function loadSpotify() {
+
+    const response =
+        await fetch("/spotify");
+
+    currentTrack =
+        await response.json();
+
+    document.getElementById("albumCover").src =
+        currentTrack.image;
+
+    document.getElementById("trackTitle").innerText =
+        currentTrack.title;
+
+    document.getElementById("trackArtist").innerText =
+        currentTrack.artist;
+            
+    document.getElementById("playPauseBtn").innerHTML =
+        currentTrack.playing
+            ? '<i class="bi bi-pause-circle"></i>'
+            : '<i class="bi bi-play-circle"></i>';
+
+    updateSpotify();
+}
+
+loadSpotify();
+setInterval(loadSpotify, 10000);
+
+setInterval(() => {
+
+    if(currentTrack.playing){
+
+        currentTrack.progress += 1000;
+
+        updateSpotify();
+    }
+
+}, 1000);
+
+function updateSpotify() {
+
+    if(!currentTrack) return;
+
+    const percent =
+        currentTrack.progress /
+        currentTrack.duration * 100;
+
+    document.getElementById(
+        "spotifyTime"
+    ).innerText =
+        `${formatTime(currentTrack.progress)} / ${formatTime(currentTrack.duration)}`;
+
+    document.getElementById(
+        "progressFill"
+    ).style.width =
+        percent + "%";
+}
+
+setInterval(() => {
+
+    if(currentTrack?.playing){
+
+        currentTrack.progress += 1000;
+
+        updateSpotify();
+    }
+
+}, 1000);
+setInterval(loadSpotify, 10000);
+
+async function nextTrack() {
+    await fetch("/spotify/next", {
+        method: "POST"
+    });
+}
+
+async function previousTrack() {
+    await fetch("/spotify/previous", {
+        method: "POST"
+    });
+}
+
+async function togglePlay() {
+
+    await fetch("/spotify/toggle", {
+        method: "POST"
+    });
+
+    currentTrack.playing =
+        !currentTrack.playing;
+
+document.getElementById("playPauseBtn").innerHTML =
+    currentTrack.playing
+        ? '<i class="bi bi-pause-circle"></i>'
+        : '<i class="bi bi-play-circle"></i>';
+}
