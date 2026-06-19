@@ -10,7 +10,7 @@ function startTime() {
 
   m = checkTime(minutes);
   
-  const dayString = getWeekDay(month);
+  const dayString = getWeekDay(day);
   const monthString = getMonths(month);
   
   document.getElementById('time').innerHTML = `
