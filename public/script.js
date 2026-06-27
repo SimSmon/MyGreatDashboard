@@ -28,6 +28,8 @@ startTime();
 
 loadWeather();
 
+setInterval(loadWeather, 900000);
+
 function getWeekDay(code) {
 
   switch(code) {
@@ -131,13 +133,15 @@ function getWeatherIcon(code) {
 
 async function loadWeather() {
 
+  const cacheBuster = new Date().getTime();
   const url =
      "https://api.open-meteo.com/v1/forecast?" +
      "latitude=48.1019&longitude=-1.7956" +
      "&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset" + 
      "&models=meteofrance_seamless" + 
      "&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m,wind_direction_10m,surface_pressure" +
-     "&timezone=auto&forecast_days=5";
+     "&timezone=auto&forecast_days=5" +
+     `&cb=${cacheBuster}`;
 
   const response = await fetch(url);
 
