@@ -133,6 +133,10 @@ function getWeatherIcon(code) {
 
 async function loadWeather() {
 
+  const tbody = document.querySelector("#forecastTable tbody");
+
+  tbody.innerHTML = "";
+
   const cacheBuster = new Date().getTime();
   const url =
      "https://api.open-meteo.com/v1/forecast?" +
@@ -193,7 +197,6 @@ async function loadWeather() {
     </table>
   `;
 
-    const tbody = document.querySelector("#forecastTable tbody");
 
     for (let i = 0; i < 5; i++) {
 
@@ -322,16 +325,6 @@ async function loadSpotify() {
 loadSpotify();
 setInterval(loadSpotify, 10000);
 
-setInterval(() => {
-
-    if(currentTrack.playing){
-
-        currentTrack.progress += 1000;
-
-        updateSpotify();
-    }
-
-}, 1000);
 
 function updateSpotify() {
 
@@ -362,7 +355,7 @@ setInterval(() => {
     }
 
 }, 1000);
-setInterval(loadSpotify, 10000);
+
 
 async function nextTrack() {
     await fetch("/spotify/next", {
